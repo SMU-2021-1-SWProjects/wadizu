@@ -1,2 +1,0 @@
-# wadizu
-wadizu by pOcka

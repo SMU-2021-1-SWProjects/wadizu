@@ -11,6 +11,7 @@ def stay_detection(gps_trajectory):
     end_timestamp = clustered_gps_trajectory[0][4]
     cluster_num = 1
     cluster_cnt = 0
+    min_cluster_num = 2
     
     # cluster_num column 추가
     clustered_gps_trajectory = np.insert(clustered_gps_trajectory, len(clustered_gps_trajectory[0]), 0, axis=1)
@@ -32,11 +33,14 @@ def stay_detection(gps_trajectory):
                     end_timestamp = clustered_gps_trajectory[i][4]
             
             # 다른 cluster로 지정
-            else:
-                if cluster_num == 1:
-                    np.place(clustered_cnt_list, [cluster_num, start_timestamp, end_timestamp ,start_latitude, start_longtitude, cluster_cnt], [cluster_num, start_timestamp, end_timestamp ,start_latitude, start_longtitude, cluster_cnt])
-                else:
-                    clustered_cnt_list = np.insert(clustered_cnt_list, len(clustered_cnt_list), [cluster_num, start_timestamp, end_timestamp ,start_latitude, start_longtitude, cluster_cnt], axis=0)
+            else:    
+                if cluster_cnt >= min_cluster_num:
+                    
+                    if cluster_num == 1:
+                        np.place(clustered_cnt_list, [cluster_num, start_timestamp, end_timestamp ,start_latitude, start_longtitude, cluster_cnt], [cluster_num, start_timestamp, end_timestamp ,start_latitude, start_longtitude, cluster_cnt])
+                    else:
+                        clustered_cnt_list = np.insert(clustered_cnt_list, len(clustered_cnt_list), [cluster_num, start_timestamp, end_timestamp ,start_latitude, start_longtitude, cluster_cnt], axis=0)
+ 
                 cluster_cnt = 1
                 cluster_num += 1
                 clustered_gps_trajectory[i][-1] = cluster_num
@@ -44,7 +48,7 @@ def stay_detection(gps_trajectory):
                 start_longtitude = clustered_gps_trajectory[i][1]
                 start_timestamp = clustered_gps_trajectory[i][4]
                 end_timestamp = clustered_gps_trajectory[i][4]
-                
+                    
             # 마지막 데이터 cluster_cnt_list에 삽입
             if i == len(clustered_gps_trajectory) - 1:
                 clustered_cnt_list = np.insert(clustered_cnt_list, len(clustered_cnt_list), [cluster_num, start_timestamp, end_timestamp ,start_latitude, start_longtitude, cluster_cnt], axis=0)

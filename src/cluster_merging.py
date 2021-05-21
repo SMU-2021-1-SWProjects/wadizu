@@ -19,11 +19,14 @@ def cluster_merging(clustered_gps_trajectory, cluster_cnt_list):
                     if merged_cluster_cnt_list[j][0] != merged_cluster_cnt_list[i][0]:
                         merged_cluster_nums = np.insert(merged_cluster_nums, len(merged_cluster_nums), [merged_cluster_cnt_list[j][0], merged_cluster_cnt_list[i][0]], axis= 0)
                         merged_cluster_cnt_list[j][0] = merged_cluster_cnt_list[i][0]
-        
-    # reclustering gps_trajectory
+
+    # reclustering gps_trajectory(cluster_num이 0은 unclustering 되었다는 것을 의미)
     for i in range(0, len(merged_cluster_nums), 1):
         for j in range(0, len(merged_gps_trajectory), 1):
-            if merged_cluster_nums[i][0] == merged_gps_trajectory[j][-1]:
-                merged_gps_trajectory[j][-1] = merged_cluster_nums[i][1]
+            if merged_gps_trajectory[j][-1] not in merged_cluster_nums:
+                merged_gps_trajectory[j][-1] = 0
+            else:
+                if merged_cluster_nums[i][0] == merged_gps_trajectory[j][-1]:
+                    merged_gps_trajectory[j][-1] = merged_cluster_nums[i][1]
 
     return merged_gps_trajectory, merged_cluster_cnt_list

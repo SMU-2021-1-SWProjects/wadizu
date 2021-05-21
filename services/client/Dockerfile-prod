@@ -1,0 +1,45 @@
+###########
+# BUILDER #
+###########
+
+# base image
+from node:11.12.0-alpine as builder
+
+# set working directory
+workdir /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+env PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+copy package.json /usr/src/app/package.json
+copy package-lock.json /usr/src/app/package-lock.json
+run npm ci
+run npm install react-scripts@2.1.8 -g --silent
+
+# set environment variables
+arg REACT_APP_USERS_SERVICE_URL
+env REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
+arg NODE_ENV
+env NODE_ENV $NODE_ENV
+
+# create build
+copy . /usr/src/app
+run npm run build
+
+
+#########
+# FINAL #
+#########
+
+# base image
+from nginx:1.15.9-alpine
+
+# copy static files
+copy --from=builder /usr/src/app/build /usr/share/nginx/html
+
+# expose port
+expose 80
+
+# run nginx
+cmd ["nginx", "-g", "daemon off;"]

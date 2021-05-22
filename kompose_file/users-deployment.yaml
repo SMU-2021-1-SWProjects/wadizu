@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: users
+  name: users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: users
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: users
+    spec:
+      containers:
+        - env:
+            - name: APP_SETTINGS
+              value: project.config.DevelopmentConfig
+            - name: DATABASE_TEST_URL
+              value: postgres://postgres:postgres@users-db:5432/users_test
+            - name: DATABASE_URL
+              value: postgres://postgres:postgres@users-db:5432/users_dev
+            - name: FLASK_ENV
+              value: development
+            - name: SECRET_KEY
+              value: my_precious
+          image: users
+          name: users
+          ports:
+            - containerPort: 5000
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/src/app
+              name: users-claim0
+      restartPolicy: Always
+      volumes:
+        - name: users-claim0
+          persistentVolumeClaim:
+            claimName: users-claim0
+status: {}

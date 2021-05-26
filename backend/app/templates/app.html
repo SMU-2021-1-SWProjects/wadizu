@@ -6,8 +6,15 @@
     </title>
 </head>
 <body>
+    <h1> GPS Clustering </h1>
+
+    <form action="/file_uploaded" 
+    method="POST" enctype="multipart/form-data">
+        <input type="file" name="file1" />
+        <input type="submit" value="파일 올리기"/>
+    </form>
+
     <form method="POST" action="/clustering">
-        <h1> GPS Clustering </h1>
         <button type="submit"> Clusterung </button>
     </form>
 </body>

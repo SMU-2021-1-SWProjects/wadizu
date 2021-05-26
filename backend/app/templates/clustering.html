@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        GPS Clustering
+    </title>
+</head>
+<body>
+    <form action="/clustering">
+        <h1> Clustring 결과 </h1>
+    </form>
+    <div>
+        {{ merged_gps }}
+    </div>
+    <hr>
+    <div>
+        {{ merged_cluster_cnt_list }}
+    </div>
+    <div>
+        <ul>
+            {% for i in merged_cluster_cnt_list %}
+            <li>{{ i[0] }} {{ i[-1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    </body>
+</html>

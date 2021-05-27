@@ -13,7 +13,7 @@ def render_main():
     return render_template('app.html')
 
 @app.route('/clustering',methods=['POST'])
-def clustering(merged_gps = None, memerged_cluster_cnt_list = None):
+def clustering(gps = None, clusters = None):
     render_template('app.html')
     if request.method == 'POST':
         data = pd.read_csv("C:/Users/skyle/Wadizu/data/1day.csv", sep= ',', header= None)
@@ -21,9 +21,9 @@ def clustering(merged_gps = None, memerged_cluster_cnt_list = None):
 
         clustered_gps_trajectory, clustered_cnt_list = stay_detection(gps_trajectory)
         
-        merged_gps, merged_cluster_cnt_list = cluster_merging(clustered_gps_trajectory, clustered_cnt_list)
+        merged_gps, merged_cluster_list = cluster_merging(clustered_gps_trajectory, clustered_cnt_list)
     
-    return render_template('clustering.html', merged_gps=merged_gps, merged_cluster_cnt_list=merged_cluster_cnt_list)
+    return render_template('clustering.html', gps=merged_gps, clusters=merged_cluster_list)
 
 # file이 submit되면 전달되는 페이지
 # upload.html에서 form이 제출되면 /file_uploaded로 옮겨지게 되어 있음.
@@ -37,4 +37,4 @@ def upload_file():
         return data
     
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(port=8000, debug=True)

@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from stay_detection import stay_detection
 from cluster_merging import cluster_merging
+from sort_descending_cluster_list import sort_descending_cluster_list
 
 app = Flask(__name__)
  
@@ -13,7 +14,7 @@ def render_main():
     return render_template('app.html')
 
 @app.route('/clustering',methods=['POST'])
-def clustering(gps = None, clusters = None):
+def clustering(gps= None, clusters= None, clusters_cnt= None, clusters_time= None):
     render_template('app.html')
     if request.method == 'POST':
         data = pd.read_csv("C:/Users/skyle/Wadizu/data/1day.csv", sep= ',', header= None)
@@ -22,8 +23,10 @@ def clustering(gps = None, clusters = None):
         clustered_gps_trajectory, clustered_cnt_list = stay_detection(gps_trajectory)
         
         merged_gps, merged_cluster_list = cluster_merging(clustered_gps_trajectory, clustered_cnt_list)
+        sorted_by_cluster_cnt = sort_descending_cluster_list(merged_cluster_list, 8)
+        sorted_by_cluster_time = sort_descending_cluster_list(merged_cluster_list, 3)
     
-    return render_template('clustering.html', gps=merged_gps, clusters=merged_cluster_list)
+    return render_template('clustering.html', gps= merged_gps, clusters= merged_cluster_list, clusters_cnt= sorted_by_cluster_cnt, clusters_time= sorted_by_cluster_time)
 
 # file이 submit되면 전달되는 페이지
 # upload.html에서 form이 제출되면 /file_uploaded로 옮겨지게 되어 있음.

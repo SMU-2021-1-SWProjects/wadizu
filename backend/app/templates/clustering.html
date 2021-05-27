@@ -17,8 +17,28 @@
         {{ clusters }}
     </div>
     <div>
+        {{ clusters_cnt }}
+    </div>
+    <div>
+        {{ clusters_time }}
+    </div>
+    <div>
         <ul>
             {% for i in clusters %}
+            <li>{{ i[0] }} {{ i[-1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <ul>
+            {% for i in clusters_cnt %}
+            <li>{{ i[0] }} {{ i[-1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <ul>
+            {% for i in clusters_time %}
             <li>{{ i[0] }} {{ i[-1] }}</li>
             {% endfor %}
         </ul>

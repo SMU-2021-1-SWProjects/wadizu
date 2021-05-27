@@ -1,5 +1,6 @@
 from cluster_merging import cluster_merging
 from stay_detection import stay_detection
+from sort_descending_cluster_list import sort_descending_cluster_list
 import pandas as pd
 import numpy as np
 
@@ -8,11 +9,13 @@ gps_trajectory = np.array(data)
 
 clustered_gps_trajectory, cluster_list = stay_detection(gps_trajectory)
 # np.savetxt("C:/Users/skyle/Wadizu/test_txt/clusterd_gps.txt", clustered_gps_trajectory, fmt='%s')
-# np.savetxt("C:/Users/skyle/Wadizu/test_txt/clusterd_cnt_list1.txt", cluster_list, fmt='%s')
+# np.savetxt("C:/Users/skyle/Wadizu/test_txt/clusterd_list.txt", cluster_list, fmt='%s')
 
 merged_gps, merged_cluster_list = cluster_merging(clustered_gps_trajectory, cluster_list)
-clusters = np.sort(merged_cluster_list, axis= 0)[::-1]
-clusters = np.flip(clusters)
-np.savetxt("C:/Users/skyle/Wadizu/test_txt/test.txt", clusters, fmt='%s')
 # np.savetxt("C:/Users/skyle/Wadizu/test_txt/merged_gps.txt", merged_gps, fmt='%s')
-# np.savetxt("C:/Users/skyle/Wadizu/test_txt/merged_cluster_list1.txt", merged_cluster_list, fmt='%s')
+# np.savetxt("C:/Users/skyle/Wadizu/test_txt/merged_cluster_list.txt", merged_cluster_list, fmt='%s')
+
+# clusters_cnt = sort_descending_cluster_list(merged_cluster_list, 8)
+# clusters_time = sort_descending_cluster_list(merged_cluster_list, 3)
+# np.savetxt("C:/Users/skyle/Wadizu/test_txt/test1.txt", clusters_cnt, fmt='%s')
+# np.savetxt("C:/Users/skyle/Wadizu/test_txt/test2.txt", clusters_time, fmt='%s')

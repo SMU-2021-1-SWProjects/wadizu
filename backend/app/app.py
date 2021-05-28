@@ -34,8 +34,10 @@ def clustering(gps= None, clusters= None, clusters_cnt= None, clusters_time= Non
         clsuster_num_alat_along_distance = np.hstack((clster_num, clster_alat_along, clster_distance))
         clsuster_num_alat_along_distance = np.delete(clsuster_num_alat_along_distance, -2, axis=1)
         
+        clsuster_num_alat_along_distance_dict = pd.DataFrame(clsuster_num_alat_along_distance, ["cluster_num", "avg_latitude", "avg_longtitude", "farthest_distance"])
+        
     
-    return render_template('clustering.html', gps= merged_gps, clusters= merged_cluster_list, clusters_cnt= sorted_by_cluster_cnt, clusters_time= sorted_by_cluster_time, gps_visualizing= gps_lat_long, cluster_visualizing= clsuster_num_alat_along_distance)
+    return render_template('clustering.html', gps= merged_gps, clusters= merged_cluster_list, clusters_cnt= sorted_by_cluster_cnt, clusters_time= sorted_by_cluster_time, gps_visualizing= gps_lat_long, cluster_visualizing= clsuster_num_alat_along_distance_dict)
 
 # file이 submit되면 전달되는 페이지
 # upload.html에서 form이 제출되면 /file_uploaded로 옮겨지게 되어 있음.

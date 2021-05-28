@@ -11,3 +11,11 @@
 # 머무룬 시간으로 내림차순 정렬함
 4. clusters_time의 column
 (클러스터 번호, 시작 시간, 끝 시간, 머무룬 시간, 시작 위도, 시작 경도, 평균 위도, 평균 경도, 클러스터 구성원 수, 클러스터 중심에서 가장 먼 좌표의 거리)
+
+# visualizing용 gps
+5. gps_visualizing column
+(위도, 경도)
+
+# visualizing용 clusters
+6. cluster_visualizing column
+(클러스터 번호, 평균 위도, 평균 경도, 클러스터 중심에서 가장 먼 좌표의 거리)

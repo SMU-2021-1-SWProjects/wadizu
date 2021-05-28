@@ -14,7 +14,7 @@ def render_main():
     return render_template('app.html')
 
 @app.route('/clustering',methods=['POST'])
-def clustering(gps= None, clusters= None, clusters_cnt= None, clusters_time= None):
+def clustering(gps= None, clusters= None, clusters_cnt= None, clusters_time= None, gps_visualizing= None,cluster_visualizing= None):
     render_template('app.html')
     if request.method == 'POST':
         data = pd.read_csv("C:/Users/skyle/Wadizu/data/1day.csv", sep= ',', header= None)
@@ -25,8 +25,17 @@ def clustering(gps= None, clusters= None, clusters_cnt= None, clusters_time= Non
         merged_gps, merged_cluster_list = cluster_merging(clustered_gps_trajectory, clustered_cnt_list)
         sorted_by_cluster_cnt = sort_descending_cluster_list(merged_cluster_list, 8)
         sorted_by_cluster_time = sort_descending_cluster_list(merged_cluster_list, 3)
+        
+        gps_lat_long = merged_gps[:, 0:2]
+        
+        clster_num = merged_cluster_list[:, 0:1]
+        clster_alat_along = merged_cluster_list[:, 6:8]
+        clster_distance = merged_cluster_list[:, -2:]
+        clsuster_num_alat_along_distance = np.hstack((clster_num, clster_alat_along, clster_distance))
+        clsuster_num_alat_along_distance = np.delete(clsuster_num_alat_along_distance, -2, axis=1)
+        
     
-    return render_template('clustering.html', gps= merged_gps, clusters= merged_cluster_list, clusters_cnt= sorted_by_cluster_cnt, clusters_time= sorted_by_cluster_time)
+    return render_template('clustering.html', gps= merged_gps, clusters= merged_cluster_list, clusters_cnt= sorted_by_cluster_cnt, clusters_time= sorted_by_cluster_time, gps_visualizing= gps_lat_long, cluster_visualizing= clsuster_num_alat_along_distance)
 
 # file이 submit되면 전달되는 페이지
 # upload.html에서 form이 제출되면 /file_uploaded로 옮겨지게 되어 있음.

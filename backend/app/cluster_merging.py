@@ -24,7 +24,7 @@ def cluster_merging(clustered_gps_trajectory, cluster_list):
     for i in range(0, len(merged_cluster_nums), 1):
         for j in range(0, len(merged_gps_trajectory), 1):
             # clustering 되지 않은 좌표들은 cluster_num을 0으로 지정
-            if merged_gps_trajectory[j][-1] not in merged_cluster_nums:
+            if merged_gps_trajectory[j][-1] not in merged_cluster_list and merged_gps_trajectory[j][-1] not in merged_cluster_nums:
                 merged_gps_trajectory[j][-1] = 0
             else:
                 if merged_cluster_nums[i][0] == merged_gps_trajectory[j][-1]:

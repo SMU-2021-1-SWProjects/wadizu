@@ -8,10 +8,10 @@
 <body>
     <h1> GPS Clustering </h1>
 
-    <form action="/file_uploaded" 
+    <form action="/upload_done" 
     method="POST" enctype="multipart/form-data">
-        <input type="file" name="file1" />
-        <input type="submit" value="파일 올리기"/>
+        <input type="file" name="data_file"/>
+        <input type="submit" value="파일 올리기" onclick="return confirm('업로드 성공!');"/>
     </form>
 
     <form method="POST" action="/clustering">

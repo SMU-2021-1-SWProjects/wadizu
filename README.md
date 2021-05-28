@@ -12,3 +12,9 @@ c TM Jaesung Choi\
 k TM Seonhyeok Kim\
 a TM Taehyun Ahn
 
+/auth
+/auth/register : POST
+/auth/login : POST
+
+/api
+/api/trajectory : GET, POST

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        GPS Clustering
+    </title>
+</head>
+<body>
+    <h1> GPS Clustering </h1>
+
+    <form action="/upload_done" 
+    method="POST" enctype="multipart/form-data">
+        <input type="file" name="data_file"/>
+        <input type="submit" value="파일 올리기" onclick="return confirm('업로드 성공!');"/>
+    </form>
+
+    <form method="POST" action="/clustering">
+        <button type="submit"> Clusterung </button>
+    </form>
+</body>
+</html>

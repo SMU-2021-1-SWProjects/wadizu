@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        GPS Clustering
+    </title>
+</head>
+<body>
+    <form action="/clustering">
+        <h1> Clustring 결과 </h1>
+    </form>
+    <div>
+        {{ gps }}
+    </div>
+    <hr>
+    <div>
+        {{ clusters }}
+    </div>
+    <div>
+        {{ clusters_cnt }}
+    </div>
+    <div>
+        {{ clusters_time }}
+    </div>
+    <div>
+        {{ gps_visualizing }}
+    </div>
+    <div>
+        {{ cluster_visualizing }}
+    </div>
+    <div>
+        <ul>
+            {% for i in clusters %}
+            <li>{{ i[0] }} {{ i[-1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <ul>
+            {% for i in clusters_cnt %}
+            <li>{{ i[0] }} {{ i[-1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <ul>
+            {% for i in clusters_time %}
+            <li>{{ i[0] }} {{ i[-1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <ul>
+            {% for i in gps_visualizing %}
+            <li>{{ i[0] }} {{ i[-1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <ul>
+            {% for i in cluster_visualizing %}
+            <li>{{ i["cluster_num"] }} {{ i["farthest_distance"] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    </body>
+</html>

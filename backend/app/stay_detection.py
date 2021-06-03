@@ -23,8 +23,7 @@ def stay_detection(gps_trajectory):
     for i in range(0, len(clustered_gps_trajectory), 1):
 
         # 위도, 경도가 임계값 범위이면 같은 cluster
-        if abs(start_latitude - clustered_gps_trajectory[i][0]) <= eps and \
-            abs(start_longtitude - clustered_gps_trajectory[i][1]) <= eps:
+        if pow(pow(start_latitude - clustered_gps_trajectory[i][0], 2) + pow(start_longtitude - clustered_gps_trajectory[i][1], 2), 0.5) <= eps:
             clustered_gps_trajectory[i][-1] = cluster_num
             cluster_cnt += 1
             sum_latitude += clustered_gps_trajectory[i][0]

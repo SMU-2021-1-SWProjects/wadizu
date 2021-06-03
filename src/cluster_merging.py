@@ -16,8 +16,7 @@ def cluster_merging(clustered_gps_trajectory, cluster_list):
         for j in range(i, len(merged_cluster_list), 1):
             if i != j:
                 # 위도, 경도가 임계값 범위이면 같은 cluster
-                if abs(merged_cluster_list[i][4] - merged_cluster_list[j][4]) <= eps and \
-                abs(merged_cluster_list[i][5] - merged_cluster_list[j][5]) <= eps:                   
+                if pow(pow(merged_cluster_list[i][4] - merged_cluster_list[j][4], 2) + pow(merged_cluster_list[i][5] - merged_cluster_list[j][5], 2), 0.5) <= eps:                    
                     # 서로 다른 걸 비교할 때만 merge
                     if merged_cluster_list[j][0] != merged_cluster_list[i][0]:
                         merged_cluster_nums = np.insert(merged_cluster_nums, len(merged_cluster_nums), [merged_cluster_list[j][0], merged_cluster_list[i][0]], axis= 0)
@@ -27,7 +26,7 @@ def cluster_merging(clustered_gps_trajectory, cluster_list):
     for i in range(0, len(merged_cluster_list), 1):
         for j in range(0, len(merged_gps_trajectory), 1):
             if(merged_cluster_list[i][0] == merged_gps_trajectory[j][-1]):
-                if abs(merged_cluster_list[i][6] - merged_gps_trajectory[j][0]) + abs(merged_cluster_list[i][7] - merged_gps_trajectory[j][1]) > farthest_distance:
+                if pow(pow(merged_cluster_list[i][6] - merged_gps_trajectory[j][0], 2) + pow(merged_cluster_list[i][7] - merged_gps_trajectory[j][1],2), 0.5) > farthest_distance:
                     farthest_distance = abs(merged_cluster_list[i][6] - merged_gps_trajectory[j][0]) + abs(merged_cluster_list[i][7] - merged_gps_trajectory[j][1])
 
         merged_cluster_list[i][-1] = farthest_distance

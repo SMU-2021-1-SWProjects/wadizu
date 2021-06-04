@@ -1,11 +1,10 @@
 import numpy as np
-import random as rd
 
 
 # gps_trajectory의 column은 (위도, 경도, 0, 고도, 타임스탬프, 날짜, 시간)
 def stay_detection(gps_trajectory):
     clustered_gps_trajectory = np.copy(gps_trajectory)
-    cluster_list = np.empty(shape=(0, 10), dtype=np.float64)
+    cluster_list = np.empty(shape=(0, 9), dtype=np.float64)
     eps = 0.000009 * 5
     start_latitude = clustered_gps_trajectory[0][0]
     start_longtitude = clustered_gps_trajectory[0][1]
@@ -41,7 +40,7 @@ def stay_detection(gps_trajectory):
                 cluster_list = np.insert(cluster_list, len(cluster_list),
                                          [cluster_num, start_timestamp, end_timestamp, interval_timestamp,
                                           start_latitude, start_longtitude, sum_latitude / cluster_cnt,
-                                          sum_longtitude / cluster_cnt, cluster_cnt, rd.randint(1, 20)], axis=0)
+                                          sum_longtitude / cluster_cnt, cluster_cnt], axis=0)
 
             cluster_cnt = 1
             cluster_num += 1
@@ -59,6 +58,6 @@ def stay_detection(gps_trajectory):
             cluster_list = np.insert(cluster_list, len(cluster_list),
                                      [cluster_num, start_timestamp, end_timestamp, interval_timestamp, start_latitude,
                                       start_longtitude, sum_latitude / cluster_cnt, sum_longtitude / cluster_cnt,
-                                      cluster_cnt, rd.randint(1, 20)], axis=0)
+                                      cluster_cnt], axis=0)
 
     return clustered_gps_trajectory, cluster_list

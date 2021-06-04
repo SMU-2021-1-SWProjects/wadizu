@@ -2,13 +2,16 @@ import numpy as np
 
 
 # clustered_gps_trajectory의 column은 (위도, 경도, 0, 고도, 타임스탬프, 날짜, 시간, cluster_num)
-# cluster_list의 column은 (cluster_num, 시작 시간, 끝 시간, 시작 위도, 시작 경도, 평균 위도, 평균 경도, cluster_cnt, 가장 먼 좌표의 거리)
+# cluster_list의 column은 (cluster_num, 시작 시간, 끝 시간, 시작 위도, 시작 경도, 평균 위도, 평균 경도, cluster_cnt)
 
 def cluster_merging(clustered_gps_trajectory, cluster_list):
     merged_gps_trajectory = np.copy(clustered_gps_trajectory)
     merged_cluster_list = np.copy(cluster_list)
     merged_cluster_nums = np.empty(shape=(0, 2), dtype=np.float64)
     eps = 0.000009 * 5
+    farthest_distance = 0
+
+    merged_cluster_list = np.insert(merged_cluster_list, len(merged_cluster_list[0]), 0, axis=1)
 
     for i in range(0, len(merged_cluster_list), 1):
         for j in range(i, len(merged_cluster_list), 1):
@@ -21,6 +24,18 @@ def cluster_merging(clustered_gps_trajectory, cluster_list):
                         merged_cluster_nums = np.insert(merged_cluster_nums, len(merged_cluster_nums),
                                                         [merged_cluster_list[j][0], merged_cluster_list[i][0]], axis=0)
                         merged_cluster_list[j][0] = merged_cluster_list[i][0]
+
+    # 평균 좌표로부터 가장 먼 좌표의 거리 파악
+    for i in range(0, len(merged_cluster_list), 1):
+        for j in range(0, len(merged_gps_trajectory), 1):
+            if (merged_cluster_list[i][0] == merged_gps_trajectory[j][-1]):
+                if pow(pow(merged_cluster_list[i][6] - merged_gps_trajectory[j][0], 2) + pow(
+                        merged_cluster_list[i][7] - merged_gps_trajectory[j][1], 2), 0.5) > farthest_distance:
+                    farthest_distance = abs(merged_cluster_list[i][6] - merged_gps_trajectory[j][0]) + abs(
+                        merged_cluster_list[i][7] - merged_gps_trajectory[j][1])
+
+        merged_cluster_list[i][-1] = farthest_distance
+        farthest_distance = 0
 
     # reclustering gps_trajectory(cluster_num이 0은 unclustering 되었다는 것을 의미)
     for i in range(0, len(merged_cluster_nums), 1):
